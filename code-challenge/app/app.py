@@ -86,6 +86,35 @@ def update_power(id):
 
     return jsonify(power_data)
 
+@app.route('/hero_powers', methods=['POST'])
+def create_hero_power():
+    data = request.get_json()
+    strength = data.get('strength')
+    power_id = data.get('power_id')
+    hero_id = data.get('hero_id')
+
+    if not strength or not power_id or not hero_id:
+        return make_response(jsonify({'errors': ['Validation errors']}), 400)
+
+    power = Power.query.get(power_id)
+    hero = Hero.query.get(hero_id)
+
+    if not power or not hero:
+        return make_response(jsonify({'error': 'Power or Hero not found'}), 404)
+
+    hero_power = HeroPower(strength=strength, power=power, hero=hero)
+    db.session.add(hero_power)
+    db.session.commit()
+
+    powers = [{'id': p.id, 'name': p.name, 'description': p.description} for p in hero.powers]
+    hero_data = {
+        'id': hero.id,
+        'name': hero.name,
+        'super_name': hero.super_name,
+        'powers': powers
+    }
+
+    return jsonify(hero_data)
 
 
 if __name__ == '__main__':
