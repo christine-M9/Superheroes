@@ -1,3 +1,4 @@
+
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -30,5 +31,3 @@ class HeroPower(db.Model):
 
     hero = db.relationship('Hero', backref=db.backref('hero_powers', cascade='all, delete-orphan'))
     power = db.relationship('Power', backref=db.backref('hero_powers', cascade='all, delete-orphan'))
-
-
