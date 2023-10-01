@@ -12,7 +12,7 @@ db.init_app(app)
 
 @app.route('/')
 def home():
-    return ''
+    return 'WELCOME TO CHRISTINES SUPERHEROES APPLICATION'
 
 ## Routes
 
